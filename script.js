@@ -297,3 +297,35 @@ function endGame() {
     resultScreen.classList.add('active');
     document.getElementById('finalScore').innerText = `Your Score: ${score}`;
 }
+
+// ==========================================
+// ✨ ระบบปุ่มสลับโหมดขยายเต็มจอ (Fullscreen) ✨
+// ==========================================
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+fullscreenBtn.onclick = () => {
+    // เช็กว่าตอนนี้หน้าจอเต็มจออยู่หรือไม่
+    if (!document.fullscreenElement) {
+        // ถ้ายังไม่เต็มจอ ให้สั่งขยายเต็มจอทั้งหน้าเว็บ
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log(`Error: ${err.message}`);
+        });
+        
+        // เปลี่ยนหน้าตาปุ่มเป็นปุ่มทางเลือกสำหรับกดออกจากเต็มจอ
+        fullscreenBtn.innerText = "❌ Exit";
+        fullscreenBtn.style.background = "#F44336";
+        fullscreenBtn.style.boxShadow = "0 5px 0 #D32F2F";
+    } else {
+        // ถ้าเต็มจออยู่แล้ว ให้สั่งออกจากโหมดเต็มจอ
+        document.exitFullscreen();
+    }
+};
+
+// ดักจับกรณีเด็กกดปุ่ม Esc บนคีย์บอร์ดเพื่อออกจากเต็มจอเอง เพื่อให้ปุ่มเปลี่ยนข้อความกลับมาถูกต้อง
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        fullscreenBtn.innerText = "📺 Fullscreen";
+        fullscreenBtn.style.background = "#4CAF50";
+        fullscreenBtn.style.boxShadow = "0 5px 0 #388E3C";
+    }
+});
