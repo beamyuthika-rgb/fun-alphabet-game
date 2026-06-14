@@ -80,15 +80,33 @@ body {
 
 /* แถบ UI ด้านบนสุดบอกเวลาและคะแนน */
 .ui-bar {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 90%; 
     display: flex; 
-    justify-content: space-between;
-    margin-top: 25px; 
+    justify-content: center; /* ✨ ดันกล่องคะแนนมาไว้ตรงกลางหน้าจอเป๊ะๆ ✨ */
+    align-items: center;
+    z-index: 15;
+}
+
+/* ล็อกเวลาไว้ให้อยู่ชิดขอบซ้ายสุดของแถบ */
+#timerDisplay {
+    position: absolute;
+    left: 0;
     font-size: 2.5rem; 
     font-weight: bold;
     color: #FFFFFF; 
     text-shadow: 3px 3px 6px #000000; 
-    z-index: 15;
+}
+
+/* คะแนนอยู่ตรงกลางตามการจัดคำสั่งของ .ui-bar */
+#scoreDisplay {
+    font-size: 2.5rem; 
+    font-weight: bold;
+    color: #FFFFFF; 
+    text-shadow: 3px 3px 6px #000000; 
 }
 
 /* พื้นที่ครึ่งบนของจอสำหรับสุ่มกระจายตัวเลือกคำตอบ */
@@ -206,12 +224,12 @@ body {
 /* --- สไตล์ปุ่ม Fullscreen มุมขวาบน --- */
 #fullscreenBtn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 200; /* ดันให้อยู่ชั้นบนสุดเหนือทุกอย่าง */
+    top: -5px; /* ขยับขึ้นเล็กน้อยเพื่อให้ระนาบตรงกับตัวหนังสือ */
+    right: 0;  /* ล็อกไว้ชิดขอบขวาสุดของแถบ */
+    z-index: 200; 
     font-size: 1.3rem;
     padding: 8px 18px;
-    background: #4CAF50; /* สีเขียวสดใส */
+    background: #4CAF50; 
     color: #FFFFFF;
     border: none;
     border-radius: 15px;
