@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Alphabet Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <video id="videoElement" autoplay playsinline></video>
+    <canvas id="canvasElement"></canvas>
+
+    <div id="handCursor"></div>
+
+    <div id="menuScreen" class="screen active">
+        <img src="assets/ChatGPT Image Jun 14, 2026, 12_20_51 PM.png" alt="Main Menu" class="menu-bg">
+        <div class="hitbox" id="mode1-btn" style="top: 48%; left: 18%; width: 32%; height: 15%;"></div>
+        <div class="hitbox" id="mode2-btn" style="top: 48%; left: 51%; width: 32%; height: 15%;"></div>
+        <div class="hitbox" id="mode3-btn" style="top: 67%; left: 18%; width: 32%; height: 15%;"></div>
+        <div class="hitbox" id="mode4-btn" style="top: 67%; left: 51%; width: 32%; height: 15%;"></div>
+    </div>
+
+    <div id="gameScreen" class="screen">
+        <div class="ui-bar">
+            <div id="timerDisplay">Time: 2:00</div>
+            <div id="scoreDisplay">Score: 0</div>
+        </div>
+        
+        <div id="optionsContainer"></div>
+
+        <div id="questionContainer">
+            <div id="questionText">Listen and choose!</div>
+            <img src="assets/replay_btn.png" id="replayBtn" alt="Replay Sound">
+        </div>
+
+        <div id="flashOverlay"></div>
+    </div>
+
+    <div id="resultScreen" class="screen">
+        <h1>TIME'S UP!</h1>
+        <h2 id="finalScore">Your Score: 0</h2>
+        <button id="homeBtn" class="game-btn">Main Menu</button>
+    </div>
+
+    <audio id="bgm" src="assets/bgm.mp3" loop></audio>
+    <audio id="sfx-correct" src="assets/correct.mp3"></audio>
+    <audio id="sfx-wrong" src="assets/wrong.mp3"></audio>
+    <audio id="sfx-finish" src="assets/finish.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

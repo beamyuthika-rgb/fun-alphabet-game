@@ -1,0 +1,204 @@
+/* รีเซ็ตค่าเริ่มต้นพื้นฐานของหน้าเว็บ */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    user-select: none; 
+}
+
+body {
+    font-family: 'Mali', cursive; /* ฟอนต์ภาษาอังกฤษและไทยสไตล์น่ารักสำหรับเด็ก */
+    overflow: hidden;
+    background-color: #87CEEB;
+}
+
+/* จัดตำแหน่งกล้องวิดีโอให้กางเต็มหน้าจอเป็นพื้นหลัง */
+#videoElement {
+    position: absolute; 
+    width: 100vw; 
+    height: 100vh;
+    object-fit: cover; 
+    transform: scaleX(-1); /* กลับซ้ายขวาของภาพกล้องให้เหมือนกระจกเงา */
+    z-index: 1; 
+    opacity: 0.8;
+}
+
+#canvasElement {
+    position: absolute; 
+    width: 100vw; 
+    height: 100vh; 
+    z-index: 2; 
+    transform: scaleX(-1);
+}
+
+/* สไตล์ของจุดแดงที่วิ่งตามปลายนิ้วชี้เด็ก */
+#handCursor {
+    position: absolute; 
+    width: 30px; 
+    height: 30px;
+    background-color: rgba(255, 0, 0, 0.8);
+    border-radius: 50%; 
+    z-index: 100;
+    transform: translate(-50%, -50%); 
+    pointer-events: none; 
+    display: none;
+    box-shadow: 0 0 15px #FFFFFF;
+}
+
+/* การควบคุมหน้าต่างสลับหน้าจอ (Screens) */
+.screen {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    z-index: 10; 
+    display: none; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.screen.active { 
+    display: flex; 
+}
+
+/* หน้าเมนูหลัก */
+.menu-bg { 
+    width: 100vw; 
+    height: 100vh; 
+    object-fit: cover; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: -1; 
+}
+
+.hitbox { 
+    position: absolute; 
+    cursor: pointer; 
+}
+
+/* แถบ UI ด้านบนสุดบอกเวลาและคะแนน */
+.ui-bar {
+    width: 90%; 
+    display: flex; 
+    justify-content: space-between;
+    margin-top: 25px; 
+    font-size: 2.5rem; 
+    font-weight: bold;
+    color: #FFFFFF; 
+    text-shadow: 3px 3px 6px #000000; 
+    z-index: 15;
+}
+
+/* พื้นที่ครึ่งบนของจอสำหรับสุ่มกระจายตัวเลือกคำตอบ */
+#optionsContainer {
+    position: absolute;
+    top: 110px;
+    left: 0;
+    width: 100vw;
+    height: 48vh;
+    z-index: 15;
+    pointer-events: none; /* ยอมให้สัมผัสทะลุผ่านโครงสร้างหลักไปหากล่องคำตอบด้านใน */
+}
+
+/* รูปทรงและลักษณะของกล่องตัวเลือกคำตอบ */
+.option-box {
+    position: absolute; /* จำเป็นมากสำหรับการสุ่มย้ายพิกัดแบบอิสระ */
+    pointer-events: auto; /* เปิดให้คลิกเมาส์หรือนิ้วโดนได้ตามปกติ */
+    width: 145px;
+    height: 145px; 
+    background: #FFFFFF;
+    border: 8px solid #CCCCCC; 
+    border-radius: 35px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 4.5rem; 
+    font-weight: bold; 
+    color: #333333; 
+    cursor: pointer;
+    box-shadow: 0 10px 0 rgba(0,0,0,0.15); 
+    transition: transform 0.2s, opacity 0.3s;
+}
+
+/* สถานะกล่องตัวเลือกต่างๆ เวลาเฉลยคำตอบ */
+.option-box.correct { border-color: #4CAF50; background-color: #E8F5E9; color: #4CAF50; }
+.option-box.wrong { border-color: #F44336; background-color: #FFEBEE; color: #F44336; }
+.option-box.hidden { opacity: 0; pointer-events: none; }
+
+/* พื้นที่ครึ่งล่างของจอสำหรับวางโจทย์คำถามและปุ่มฟังซ้ำ */
+#questionContainer {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 90%;
+}
+
+/* ตัวหนังสือโจทย์คำถามขนาดใหญ่ เห็นชัด ไม่โดนกล้องกลืน */
+#questionText {
+    font-size: 4.5rem;
+    font-weight: 700;
+    background: #FFFFFF; /* สีขาวทึบตัดขาดจากภาพแบล็กกราวด์กล้อง */
+    padding: 15px 50px;
+    border-radius: 40px;
+    border: 8px solid #FFD700; /* กรอบหนาสีทองเด่นชัด */
+    color: #2C3E50;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* สไตล์ปุ่มฟังเสียงซ้ำ (รูปลำโพงรูปวงกลม 3D ล่างโจทย์) */
+#replayBtn {
+    width: 90px !important;
+    height: 90px !important;
+    object-fit: contain;
+    cursor: pointer;
+    background: #FF9800;
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 0 8px 0 #E65100;
+    transition: all 0.1s;
+}
+
+#replayBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 #E65100;
+}
+
+/* แผ่นสีโปร่งแสงสำหรับทำ Effect แวบ ทั่วทั้งหน้าจอ */
+#flashOverlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 5; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+}
+#flashOverlay.flash-green { background-color: rgba(76, 175, 80, 0.45); opacity: 1; }
+#flashOverlay.flash-red { background-color: rgba(244, 67, 54, 0.45); opacity: 1; }
+
+/* หน้าสรุปผลคะแนน */
+#resultScreen { justify-content: center; background: rgba(255, 255, 255, 0.95); z-index: 25; }
+#resultScreen h1 { font-size: 5rem; color: #FF5722; margin-bottom: 10px; font-weight: bold; }
+#resultScreen h2 { font-size: 3.5rem; margin-bottom: 50px; color: #333333; }
+
+/* ปุ่มกดสไตล์เกมน่ารักๆ */
+.game-btn { 
+    font-size: 2.2rem; 
+    padding: 15px 45px; 
+    background: #FF9800; 
+    color: #FFFFFF; 
+    border: none; 
+    border-radius: 25px; 
+    font-family: inherit; 
+    font-weight: bold;
+    cursor: pointer; 
+    box-shadow: 0 7px 0 #E65100; 
+    transition: all 0.1s;
+}
+.game-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 #E65100; }
